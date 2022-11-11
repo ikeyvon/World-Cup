@@ -350,6 +350,10 @@ class Tournament:
         self.teams = teams
         self.group_assign = [[A,B],[B,A],[C,D],[D,C],[E,F],[F,E],[G,H],[H,G]]
         self.first_rounds = ['L1R16', 'R1R16', 'L2R16', 'R2R16', 'L3R16', 'R3R16', 'L4R16', 'R4R16']
+        self.quarters = ['LeftTopQuarterFinal', 'LeftBottomQuarterFinal', 'RightTopQuarterFinal', 'RightBottomQuarterFinal']
+        self.semis = ['LeftSemiFinal', 'RightSemiFinal']
+        self.third_place_game = 'ThirdPlaceGame'
+        self.final = 'Final'
 
     def make_bracket(self):
         # starting at quarterfinals, make bracket
@@ -366,7 +370,16 @@ class Tournament:
             self.bracket[self.first_rounds[i]]['Teams'] = [team1, team2]
     
     def play_bracket(self):
-        for game in self.first_rounds:
+        self.play_round(self.first_rounds)
+        self.play_round(self.quarters)
+        ### SEMIS FILLED ###
+        self.play_round(self.semis)
+        ### FINAL AND THIRD PLACE FILLED ###
+
+
+            
+    def play_round(self, round):
+        for game in round:
             team1 = self.bracket[game]['Teams'][0]
             team2 = self.bracket[game]['Teams'][1]
             score = play(team1, team2, None)
@@ -374,21 +387,30 @@ class Tournament:
             if score[0] > score[1]:
                 # team1 wins
                 self.bracket[game]['Winner'] = team1
+                loser = team2
             elif score[0] < score[1]:
-                # team1 wins
+                # team2 wins
                 self.bracket[game]['Winner'] = team2
+                loser = team1
             else: # score[0] == score[1]:
-                # team1 wins
+                # TIE
                 print('BREAK THE TIE!')
-                self.bracket[game]['Winner'] = break_the_tie(team1, team2)
+                winner = break_the_tie(team1, team2)
+                self.bracket[game]['Winner'] = winner
+                if winner == team1:
+                    loser = team2
+                else:
+                    loser = team1
             winner = self.bracket[game]['Winner']
-            next_game = self.bracket[game]['NextGame']
-            self.bracket[next_game]['Teams'].append(winner)
-            ### QUARTERS FILLED BUT NOT PLAYED
-            
-    
-    
-    
+            if round == self.semis:
+                next_game = self.bracket[game]['NextGame'][0]
+                loser_game = self.bracket[game]['NextGame'][1]
+                self.bracket[next_game]['Teams'].append(winner)
+                self.bracket[loser_game]['Teams'].append(loser)
+            else:
+                next_game = self.bracket[game]['NextGame']
+                self.bracket[next_game]['Teams'].append(winner)
+
     def get_winner(self):
         return self.bracket['Final']['Winner']
     def get_runner_up(self):
