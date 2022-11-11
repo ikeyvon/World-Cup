@@ -20,7 +20,7 @@ FIRST = 0
 SECOND = 1
 
 """
-setup groups with unfilled rankings
+setup groups with unfilled rankings   
 """
 def main():
     WC_DICT = make_WC_dictionary()
