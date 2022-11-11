@@ -352,8 +352,8 @@ class Tournament:
         self.first_rounds = ['L1R16', 'R1R16', 'L2R16', 'R2R16', 'L3R16', 'R3R16', 'L4R16', 'R4R16']
         self.quarters = ['LeftTopQuarterFinal', 'LeftBottomQuarterFinal', 'RightTopQuarterFinal', 'RightBottomQuarterFinal']
         self.semis = ['LeftSemiFinal', 'RightSemiFinal']
-        self.third_place_game = 'ThirdPlaceGame'
-        self.final = 'Final'
+        self.third_place_game = ['ThirdPlaceGame']
+        self.final = ['Final']
 
     def make_bracket(self):
         # starting at quarterfinals, make bracket
@@ -375,9 +375,9 @@ class Tournament:
         ### SEMIS FILLED ###
         self.play_round(self.semis)
         ### FINAL AND THIRD PLACE FILLED ###
+        self.play_round(self.third_place_game)
+        self.play_round(self.final)
 
-
-            
     def play_round(self, round):
         for game in round:
             team1 = self.bracket[game]['Teams'][0]
@@ -407,20 +407,26 @@ class Tournament:
                 loser_game = self.bracket[game]['NextGame'][1]
                 self.bracket[next_game]['Teams'].append(winner)
                 self.bracket[loser_game]['Teams'].append(loser)
-            else:
+            elif round == self.third_place_game:
+                print(f"THIRD PLACE WINNER IS {winner}")
+                print(f"Fourth place goes to {loser}")
+            elif round == self.final:
+                print(f"THE WORLD CUP WINNER IS {winner}")
+                print(f"THE RUNNER UP IS {loser}")
+            else: # used for round of 16 and quarters
                 next_game = self.bracket[game]['NextGame']
                 self.bracket[next_game]['Teams'].append(winner)
 
-    def get_winner(self):
-        return self.bracket['Final']['Winner']
-    def get_runner_up(self):
-        for i in self.bracket['Final']['Teams']:
-            if self.bracket['Final']['Winner'] != i:
-                runner_up = i
-                return runner_up
-        return -1
-    def get_third_place(self):
-        return self.bracket['ThirdPlaceGame']['Winner']
+    # def get_winner(self):
+    #     return self.bracket['Final']['Winner']
+    # def get_runner_up(self):
+    #     for i in self.bracket['Final']['Teams']:
+    #         if self.bracket['Final']['Winner'] != i:
+    #             runner_up = i
+    #             return runner_up
+    #     return -1
+    # def get_third_place(self):
+    #     return self.bracket['ThirdPlaceGame']['Winner']
     def disp(self):
         for i in self.bracket:
             print(f"{i}: {self.bracket[i]}")
