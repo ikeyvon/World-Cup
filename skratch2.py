@@ -19,7 +19,7 @@ def answer():
 #     # get_input will return 'yes' during this test
 #     @patch('skratch2.get_input', return_value='yes')
 #     def test_answer_yes(self, input):
-#         self.assertEqual(answer(), 'you entered yes')
+#         self.assertEqual(answer(), 'you entered yes') 
 #         print('test passed')
 
 #     @patch('skratch2.get_input', return_value='no')

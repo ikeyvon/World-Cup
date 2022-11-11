@@ -1,6 +1,6 @@
 import numpy as np
 
-# CONSTANTS
+# CONSTANTS 
 NAME_INDEX = 0
 P_INDEX = 1
 GD_INDEX = 2
