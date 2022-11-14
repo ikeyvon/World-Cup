@@ -371,11 +371,14 @@ class Tournament:
     
     def play_bracket(self):
         self.play_round(self.first_rounds)
+        self.disp() # new stage
         self.play_round(self.quarters)
+        self.disp() # new stage
         ### SEMIS FILLED ###
         self.play_round(self.semis)
-        ### FINAL AND THIRD PLACE FILLED ###
+        self.disp() ### FINAL AND THIRD PLACE FILLED ###
         self.play_round(self.third_place_game)
+        self.disp()
         self.play_round(self.final)
 
     def play_round(self, round):
@@ -417,16 +420,6 @@ class Tournament:
                 next_game = self.bracket[game]['NextGame']
                 self.bracket[next_game]['Teams'].append(winner)
 
-    # def get_winner(self):
-    #     return self.bracket['Final']['Winner']
-    # def get_runner_up(self):
-    #     for i in self.bracket['Final']['Teams']:
-    #         if self.bracket['Final']['Winner'] != i:
-    #             runner_up = i
-    #             return runner_up
-    #     return -1
-    # def get_third_place(self):
-    #     return self.bracket['ThirdPlaceGame']['Winner']
     def disp(self):
         for i in self.bracket:
             print(f"{i}: {self.bracket[i]}")

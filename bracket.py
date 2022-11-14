@@ -2,7 +2,6 @@ import math
 import random
 import tkinter
 
-# .  
 def generate_bracket_rec(players):
     games_map = {}
     next_players = []

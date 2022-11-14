@@ -23,10 +23,5 @@ class Test(TestCase):
         # self.assertEqual(answer(), 'you entered yes')
         main()
 
-    # @patch('skratch2.get_input', return_value='no')
-    # def test_answer_no(self, input):
-    #     self.assertEqual(answer(), 'you entered no')
-    #     print('hello?')
-
 Test().test_wc_firstgame()
 exit()
